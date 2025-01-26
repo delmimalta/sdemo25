@@ -8,6 +8,7 @@
 <img src="https://raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/images/scheme.png" width="360" height="480">
 **Таблица с адресами устройств по сегментам:**
 
+---
 
 | **Имя устройства** | **Сегмент** |  **IP-адрес**   | **Шлюз по умолчанию** |
 | :----------------: | :---------: | :-------------: | :-------------------: |
@@ -25,10 +26,9 @@
 ## **Модуль №1:**
 ### 1. Конфигурация и адресация:
 **На ISP, HQ-RTR, BR-RTR пересылка пакетов:**
-```
-nano /etc/net/sysctl.conf
-```
-net.ipv4.ip_forward = 1
+> [!/etc/net/sysctl.conf]
+> net.ipv4.ip_forward = 1
+
 **На них же ставим NAT на красный:**
 ```
 iptables -t nat -A POSTROUTING -o ens18 -j MASQUERADE
@@ -44,7 +44,10 @@ timedatectl set-timezone Asia/Krasnoyarsk
 hostnamectl set-hostname hq-rtr.au-team.irpo ; exec bash
 nano /etc/sysconfig/network
 ```
-HOSTNAME=br-rtr.au-team.irpo
+
+> [!/etc/sysconfig/network]
+> HOSTNAME=br-rtr.au-team.irpo
+
 **На всех синих адреса свои:**
 nano ens18/options
 
