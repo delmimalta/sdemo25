@@ -5,7 +5,7 @@
 
 ---
 
-<img src="images/scheme" width="200" height="200">
+<img src="https://raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/images/scheme.png" width="360" height="480">
 **Таблица с адресами по сегментам:**
 
 | **Имя устройства** | **Сегмент** |  **IP-адрес**   | **Шлюз по умолчанию** |
