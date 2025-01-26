@@ -1,11 +1,11 @@
 # Предисловие:
----
-
 **В данном репозитории представлено полное решение демонстрационного экзамена (ДЭ, ДЕМО, ДЭМО) от 2025 года по специальности 09.02.06 Сетевое и системное администрирование. Все задания выполнялись удалённо на машинах с установленной ОС ALT Linux и развёрнутых на Proxmox стендах предоставленных Аэрокосмическим колледжем при Сибирском государственном университете науки и технологий имени академика М.Ф. Решетнёва базирующемся в городе Красноярск. Надеюсь, что моя работа поможет как можно более широкому кругу молодых специалистов, что уже сдают или ещё будут сдавать этот экзамен.**
-# DEMO-2025:
----
 
+---
+# DEMO-2025:
 **Схема сети — красные со шлюзом, синие без шлюза:**
+
+---
 ![scheme](images/scheme.png)
 **Таблица с адресами по сегментам:**
 
@@ -24,8 +24,7 @@
 |     **HQ-CLI**     |     RTR     | 10.1.1.65-77/28 |       10.1.1.78       |
 |                    |             |                 |                       |
 ## **Модуль №1:**
-<details>
-<summary>1. Конфигурация и адресация:</summary>
+### 1. Конфигурация и адресация:
 **На <mark>ISP</mark>, <mark>HQ-RTR</mark>, <mark>BR-RTR</mark> пересылка пакетов:**
 `nano /etc/net/sysctl.conf`
 ```
@@ -62,9 +61,9 @@ default via 172.16.5.14
 `ip -c -br a`
 `ip -c -br r`
 **Больше ISP не трогаем**
-</details>
-<details>
-<summary>2. VLAN и DHCP:</summary>
+
+
+### 2. VLAN и DHCP:
 **<mark>HQ-RTR</mark> на сабах:
 `mkdir ens19.100/`
 `nano ens19.100/options`
@@ -92,9 +91,9 @@ dhcp-option=15,au-team.irpo
 interface=ens19.200
 ```
 `systemctl restart dnsmasq`
-</details>
-<details>
-<summary>3. GRE и OSPF:</summary>
+
+
+### 3. GRE и OSPF:
 **На <mark>HQ-RTR:</mark>**
 `apt-get install -y frr`
 `mkdir tun0`
@@ -174,9 +173,9 @@ do wr
 exit
 ```
 `systemctl restart frr`
-</details>
-<details>
-<summary>4. SSH:</summary>
+
+
+### 4. SSH:
 **На <mark>HQ-SRV</mark> и <mark>BR-SRV</mark>:**
 `useradd -u 1010 -m sshuser`
 `passwd sshuser`
@@ -225,9 +224,9 @@ Port 2024
 PermitRootLogin no
 ```
 `systemctl enable --now sshd`
-</details>
-<details>
-<summary>5. DNS:</summary>
+
+
+### 5. DNS:
 **На <mark>HQ-SRV</mark>, клиентский адрес случаен:**
 `apt-get update && apt-get install -y dnsmasq`
 `systemctl enable --now dnsmasq`
@@ -279,7 +278,6 @@ search au-team.irpo
 ```
 `chattr +i /etc/resolv.conf`
 **Готово.**
-</details>
 ## **Модуль №2:**
 ### 1. RAID и NFS:
  **На <mark>HQ-SRV</mark>:**
