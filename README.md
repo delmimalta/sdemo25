@@ -21,7 +21,6 @@
 |     **HQ-SRV**     |     RTR     |   10.1.1.1/26   |       10.1.1.62       |
 |     **BR-SRV**     |     RTR     |   10.2.2.1/27   |       10.2.2.30       |
 |     **HQ-CLI**     |     RTR     | 10.1.1.65-77/28 |       10.1.1.78       |
-|                    |             |                 |                       |
 ## **Модуль №1:**
 ### 1. Конфигурация и адресация:
 **На <mark>ISP</mark>, <mark>HQ-RTR</mark>, <mark>BR-RTR</mark> пересылка пакетов:**
@@ -60,8 +59,6 @@ default via 172.16.5.14
 `ip -c -br a`
 `ip -c -br r`
 **Больше ISP не трогаем**
-
-
 ### 2. VLAN и DHCP:
 **<mark>HQ-RTR</mark> на сабах:
 `mkdir ens19.100/`
@@ -90,8 +87,6 @@ dhcp-option=15,au-team.irpo
 interface=ens19.200
 ```
 `systemctl restart dnsmasq`
-
-
 ### 3. GRE и OSPF:
 **На <mark>HQ-RTR:</mark>**
 `apt-get install -y frr`
@@ -172,8 +167,6 @@ do wr
 exit
 ```
 `systemctl restart frr`
-
-
 ### 4. SSH:
 **На <mark>HQ-SRV</mark> и <mark>BR-SRV</mark>:**
 `useradd -u 1010 -m sshuser`
@@ -223,8 +216,6 @@ Port 2024
 PermitRootLogin no
 ```
 `systemctl enable --now sshd`
-
-
 ### 5. DNS:
 **На <mark>HQ-SRV</mark>, клиентский адрес случаен:**
 `apt-get update && apt-get install -y dnsmasq`
