@@ -30,21 +30,25 @@
 ```
 nano /etc/net/sysctl.conf
 ```
-
-> [!/etc/net/sysctl.conf]
+> [!NOTE]
 > net.ipv4.ip_forward = 1
-
 **На них же ставим NAT на красный:**
-`iptables -t nat -A POSTROUTING -o ens18 -j MASQUERADE`
-`iptables-save >> /etc/sysconfig/iptables`
-`systemctl enable --now iptables`
-**На всех часовой пояс:**
-`timedatectl set-timezone Asia/Krasnoyarsk`
-**На всех имена свои:**
-`hostnamectl set-hostname hq-rtr.au-team.irpo ; exec bash`
-`nano /etc/sysconfig/network`
 ```
-HOSTNAME=br-rtr.au-team.irpo
+iptables -t nat -A POSTROUTING -o ens18 -j MASQUERADE
+iptables-save >> /etc/sysconfig/iptables
+systemctl enable --now iptables
+```
+**На всех часовой пояс:**
+```
+timedatectl set-timezone Asia/Krasnoyarsk
+```
+**На всех имена свои:**
+```
+hostnamectl set-hostname hq-rtr.au-team.irpo ; exec bash
+nano /etc/sysconfig/network
+```
+> [!NOTE]
+> HOSTNAME=br-rtr.au-team.irpo
 ```
 **На всех синих адреса свои:**
 `nano ens18/options`
