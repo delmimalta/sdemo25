@@ -31,7 +31,7 @@
 nano /etc/net/sysctl.conf
 ```
 
-> [!NOTE]
+> [!/etc/net/sysctl.conf]
 > net.ipv4.ip_forward = 1
 
 **На них же ставим NAT на красный:**
