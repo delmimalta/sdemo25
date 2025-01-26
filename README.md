@@ -6,7 +6,7 @@
 ---
 
 **Схема сети — красные со шлюзом, синие без шлюза:**
-![[scheme.png]]
+![scheme](images/scheme.png)
 **Таблица с адресами по сегментам:**
 
 | **Имя устройства** | **Сегмент** |  **IP-адрес**   | **Шлюз по умолчанию** |
@@ -22,14 +22,16 @@
 |     **HQ-SRV**     |     RTR     |   10.1.1.1/26   |       10.1.1.62       |
 |     **BR-SRV**     |     RTR     |   10.2.2.1/27   |       10.2.2.30       |
 |     **HQ-CLI**     |     RTR     | 10.1.1.65-77/28 |       10.1.1.78       |
+|                    |             |                 |                       |
 ## **Модуль №1:**
-### 1. Конфигурация и адресация:
-**На ==ISP==, ==HQ-RTR==, ==BR-RTR== пересылка пакетов:**
+<details>
+<summary>1. Конфигурация и адресация:</summary>
+**На <mark>ISP</mark>, <mark>HQ-RTR</mark>, <mark>BR-RTR</mark> пересылка пакетов:**
 `nano /etc/net/sysctl.conf`
 ```
 net.ipv4.ip_forward = 1
 ```
-**==На них же== ставим NAT на красный:**
+**<mark>На них же</mark> ставим NAT на красный:**
 `iptables -t nat -A POSTROUTING -o ens18 -j MASQUERADE`
 `iptables-save >> /etc/sysconfig/iptables`
 `systemctl enable --now iptables`
@@ -60,8 +62,10 @@ default via 172.16.5.14
 `ip -c -br a`
 `ip -c -br r`
 **Больше ISP не трогаем**
-### 2. VLAN и DHCP:
-**==HQ-RTR== на сабах:
+</details>
+<details>
+<summary>2. VLAN и DHCP:</summary>
+**<mark>HQ-RTR</mark> на сабах:
 `mkdir ens19.100/`
 `nano ens19.100/options`
 ```
@@ -74,7 +78,7 @@ BOOTPROTO=static
 ```
 10.1.1.62/26
 ```
-**==На нём же== раздача DHCP, клиенту иногда нужна перезагрузка:**
+**<mark>На нём же</mark> раздача DHCP, клиенту иногда нужна перезагрузка:**
 `apt-get update && apt-get install -y dnsmasq`
 `systemctl enable --now dnsmasq`
 `nano /etc/dnsmasq.conf`
@@ -88,8 +92,10 @@ dhcp-option=15,au-team.irpo
 interface=ens19.200
 ```
 `systemctl restart dnsmasq`
-### 3. GRE и OSPF:
-**На ==HQ-RTR:==**
+</details>
+<details>
+<summary>3. GRE и OSPF:</summary>
+**На <mark>HQ-RTR:</mark>**
 `apt-get install -y frr`
 `mkdir tun0`
 `nano tun0/options`
@@ -129,7 +135,7 @@ do wr
 exit
 ```
 `systemctl restart frr`
-**На ==BR-RTR:==**
+**На <mark>BR-RTR:</mark>**
 `apt-get update && apt-get install -y frr`
 `mkdir tun0`
 `nano tun0/options`
@@ -168,8 +174,10 @@ do wr
 exit
 ```
 `systemctl restart frr`
-### 4. SSH:
-**На ==HQ-SRV== и ==BR-SRV==:**
+</details>
+<details>
+<summary>4. SSH:</summary>
+**На <mark>HQ-SRV</mark> и <mark>BR-SRV</mark>:**
 `useradd -u 1010 -m sshuser`
 `passwd sshuser`
 ```
@@ -193,7 +201,7 @@ Banner /etc/openssh/banner
 `Authorized access only`
 ```
 `systemctl restart sshd`
-**На ==HQ-RTR== и ==BR-RTR==:**
+**На <mark>HQ-RTR</mark> и <mark>BR-RTR</mark>:**
 `useradd -m net_admin`
 `passwd net_admin`
 ```
@@ -210,15 +218,17 @@ Port 2024
 PermitRootLogin no
 ```
 `systemctl restart sshd`
-**На ==HQ-CLI==:**
+**На <mark>HQ-CLI</mark>:**
 `nano /etc/openssh/sshd_config`
 ```
 Port 2024
 PermitRootLogin no
 ```
 `systemctl enable --now sshd`
-### 5. DNS:
-**На ==HQ-SRV==, клиентский адрес случаен:**
+</details>
+<details>
+<summary>5. DNS:</summary>
+**На <mark>HQ-SRV</mark>, клиентский адрес случаен:**
 `apt-get update && apt-get install -y dnsmasq`
 `systemctl enable --now dnsmasq`
 `nano /etc/dnsmasq.conf`
@@ -246,14 +256,14 @@ address=/hq-cli.au-team.irpo/10.1.1.65
 ptr-record=65.1.1.10.in-addr.arpa,hq-cli.au-team.irpo
 ```
 `systemctl restart dnsmasq`
-**==На нём же==:**
+**<mark>На нём же</mark>:**
 `nano /etc/resolv.conf`
 ```
 nameserver 127.0.0.1
 search au-team.irpo
 ```
 `chattr +i /etc/resolv.conf`
-**На ==BR-SRV==:**
+**На <mark>BR-SRV</mark>:**
 `nano /etc/resolv.conf`
 ```
 nameserver 10.1.1.1
@@ -261,7 +271,7 @@ nameserver 127.0.0.1
 search au-team.irpo
 ```
 `chattr +i /etc/resolv.conf`
-**На ==HQ-RTR== и ==BR-RTR==:**
+**На <mark>HQ-RTR</mark> и <mark>BR-RTR</mark>:**
 `nano /etc/resolv.conf`
 ```
 nameserver 10.1.1.1
@@ -269,9 +279,10 @@ search au-team.irpo
 ```
 `chattr +i /etc/resolv.conf`
 **Готово.**
+</details>
 ## **Модуль №2:**
 ### 1. RAID и NFS:
- **На ==HQ-SRV==:**
+ **На <mark>HQ-SRV</mark>:**
 `mdadm --create --verbose /dev/md0 -l 5 -n 3 /dev/sd[b-d]`
 `mdadm --detail -scan > /etc/mdadm.conf`
 `fdisk /dev/md0`
@@ -298,7 +309,7 @@ w
 ```
 `systemctl restart nfs`
 `touch /raid5/nfs/test`
-**На ==HQ-CLI==:**
+**На <mark>HQ-CLI</mark>:**
 `mkdir /mnt/nfs`
 `nano /etc/fstab`
 ```
@@ -307,7 +318,7 @@ w
 `mount -a`
 `ls /mnt/nfs`
 ### 2. Chrony:
-**На ==HQ-RTR==:**
+**На <mark>HQ-RTR</mark>:**
 `nano /etc/chrony.conf`
 ```
 Стираем строку pool в самом низу и добавляем
@@ -324,7 +335,7 @@ allow 0/0
 `systemctl restart chronyd`
 `chattr +i /etc/resolv.conf`
 ### 3. Ansible и Yandex:
-**На ==BR-SRV==:**
+**На <mark>BR-SRV</mark>:**
 `apt-get update && apt-get install -y ansible sshpass wget`
 `cd /etc/ansible`
 `wget` raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/inventory.yml
@@ -338,13 +349,13 @@ interpreter_python = /usr/bin/python3
 inventory = /etc/ansible/inventory.yml
 host_key_checking = false
 ```
-**На ==HQ-CLI==:**
+**На <mark>HQ-CLI</mark>:**
 `apt-get update && apt-get remove -y --purge --auto-remove python2-base`
 `apt-get install -y yandex-browser-stable`
-**Возвращаемся на ==BR-SRV==:**
+**Возвращаемся на <mark>BR-SRV</mark>:**
 `ansible -m ping all`
 ### 4. MediaWiki в Docker:
-**На ==BR-SRV==:**
+**На <mark>BR-SRV</mark>:**
 `apt-get install -y docker-engine docker-compose`
 `systemctl enable --now docker`
 `usermod user -aG docker`
@@ -352,7 +363,7 @@ host_key_checking = false
 `mv wiki.yml /home/user`
 `cd /home/user`
 `docker compose -f wiki.yml up -d`
-**В браузере на ==HQ-CLI==:**
+**В браузере на <mark>HQ-CLI</mark>:**
 ```
 10.2.2.1:8080
 
@@ -361,28 +372,28 @@ Please set up the wiki first
 Далее ->
 ```
 **Пользователь = wiki, пароль = WikiP@ssw0rd:**
-![[wiki1.png]]
+![wiki1](images/wiki1.png)
 ```
 ☑ Использовать ту же учётную запись, что и для установки
 Далее ->
 ```
-![[wiki2.png]]
+![wiki2](images/wiki2.png)
 ```
 Далее ->
 Далее ->
 ```
 `scp -P 2024 /home/user/Загрузки/LocalSettings.php sshuser@10.2.2.1:/home/sshuser`
-**Возвращаемся на ==BR-SRV==:**
+**Возвращаемся на <mark>BR-SRV</mark>:**
 `mv /home/sshuser/LocalSettings.php /home/user`
 `nano wiki.yml`
 ```
 Раскомментируем строку
 ```
 `docker compose -f wiki.yml up -d`
-**Возвращаемся в браузер на ==HQ-CLI== и заходим на первоначальный адрес:**
-![[wiki3.png]]
+**Возвращаемся в браузер на <mark>HQ-CLI</mark> и заходим на первоначальный адрес:**
+![wiki3](images/wiki3.png)
 ### 5. Moodle на Apache:
-**На ==HQ-SRV==:**
+**На <mark>HQ-SRV</mark>:**
 `apt-get install -y moodle moodle-apache2 moodle-local-mysql`
 `systemctl enable --now mariadb`
 `systemctl enable --now httpd2`
@@ -395,7 +406,7 @@ EXIT
 ```
 `systemctl restart httpd2`
 `systemctl restart mariadb`
-**В браузере на ==HQ-CLI==:**
+**В браузере на <mark>HQ-CLI</mark>:**
 ```
 10.1.1.1/moodle
 
@@ -405,51 +416,51 @@ EXIT
 MariaDB ("родной"/mariadb)
 Далее ->
 ```
-![[moodle1.png]]
+![moodle1](images/moodle1.png)
 ```
 Продолжить
 ```
-**Возвращаемся на ==HQ-SRV==:**
+**Возвращаемся на <mark>HQ-SRV</mark>:**
 `nano /etc/php/8.2/apache2-mod_php/php.ini`
 ```
 Ищем, раскомментируем/меняем ; перед/на max_input_vars = 6000
 ```
 `systemctl restart httpd2`
-**Возвращаемся в браузер на ==HQ-CLI== и обновляем страницу**:
+**Возвращаемся в браузер на <mark>HQ-CLI</mark> и обновляем страницу**:
 ```
 Продолжить
 Продолжить
 ```
-![[moodle2.png]]
+![moodle2](images/moodle2.png)
 **Названием сайта будет номер вашего места**:
-![[moodle3.png]]
-![[moodle4.png]]
-### 6. Port Forwarding и NGINX - ==НЕ ГОТОВ!==:
-**На ==BR-RTR==:**
+![moodle3](images/moodle3.png)
+![moodle4](images/moodle4.png)
+### 6. Port Forwarding и NGINX - <mark>НЕ ГОТОВ!</mark>:
+**На <mark>BR-RTR</mark>:**
 `iptables -t nat -A PREROUTING -p tcp -d 10.2.2.30 --dport 80 -j DNAT --to-destination 10.2.2.1:8080
 `iptables -t nat -A PREROUTING -p tcp -d 10.2.2.30 --dport 2024 -j DNAT --to-destination 10.2.2.1:2024
 `iptables-save > /etc/sysconfig/iptables`
 `systemctl restart iptables`
-**На ==HQ-RTR==:**
+**На <mark>HQ-RTR</mark>:**
 `iptables -t nat -A PREROUTING -p tcp -d 10.1.1.62 --dport 2024 -j DNAT --to-destination 10.1.1.1:2024
 `iptables-save > /etc/sysconfig/iptables`
 `systemctl restart iptables`
-**==NGINX НЕ ГОТОВ!==**
+**<mark>NGINX НЕ ГОТОВ!</mark>**
 ### 7. Samba DC:
-**На ==BR-SRV==:**
+**На <mark>BR-SRV</mark>:**
 `apt-get install -y task-samba-dc`
 `rm -rf /etc/samba/smb.conf`
 `nano /etc/hosts`
 ```
 10.2.2.1	br-srv.au-team.irpo
 ```
-**На ==HQ-SRV==:**
+**На <mark>HQ-SRV</mark>:**
 `nano /etc/dnsmasq.conf`
 ```
 server=/au-team.irpo/10.2.2.1
 ```
 `systemctl restart dnsmasq`
-**Возвращаемся ==BR-SRV==:**
+**Возвращаемся <mark>BR-SRV</mark>:**
 `samba-tool domain provision
 ```
 AU-TEAM.IRPO
@@ -469,12 +480,12 @@ P@ssw0rd
 `samba-tool user add user5.hq P@ssw0rd`
 `samba-tool group add hq`
 `samba-tool group addmembers hq user1.hq,user2.hq,user3.hq,user4.hq,user5.hq`
-**На ==HQ-CLI==:**
-![[samba1.png]]
-![[samba2.png]]
-![[samba3.png]]
+**На <mark>HQ-CLI</mark>:**
+![samba1](images/samba1.png)
+![samba2](images/samba2.png)
+![samba3](images/samba3.png)
 `reboot`
-**Снова на ==BR-SRV==:**
+**Снова на <mark>BR-SRV</mark>:**
 `apt-repo add rpm http://altrepo.ru/local-p10 noarch local-p10`
 `apt-get update && apt-get install -y sudo-samba-schema`
 `sudo-schema-apply`
@@ -487,16 +498,16 @@ Yes
 sudoCommand:	/bin/cat
 sudoUser:	    %hq
 ```
-**Возвращаемся на ==HQ-CLI==:**
+**Возвращаемся на <mark>HQ-CLI</mark>:**
 `apt-get install -y admc`
 `kinit administrator`
 ```
 P@ssw0rd
 ```
 `admc`
-![[samba4.png]]
-![[samba5.png]]
-![[samba6.png]]
+![samba4](images/samba4.png)
+![samba5](images/samba5.png)
+![samba6](images/samba6.png)
 `apt-get install -y sudo libsss_sudo`
 `control sudo public`
 **Ищем и добавляем:**
@@ -517,7 +528,7 @@ sudoers: files sss
 `rm -rf /var/lib/ssd/db/*`
 `sss_cache -E`
 `systemctl restart sssd`
-**Опять на ==BR-SRV==, но на экзамене архив уже лежит там:**
+**Опять на <mark>BR-SRV</mark>, но на экзамене архив уже лежит там:**
 `cd /opt`
 `wget` raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/Users.zip
 `unzip Users.zip`
