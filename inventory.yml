@@ -6,7 +6,7 @@ Networking:
       ansible_password: P@$$word
       ansible_port: 2024
     br-rtr:
-      ansible_host: 172.16.4.1
+      ansible_host: 172.16.5.1
       ansible_user: net_admin
       ansible_password: P@$$word
       ansible_port: 2024
