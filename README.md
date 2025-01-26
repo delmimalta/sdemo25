@@ -1,4 +1,4 @@
-# README:
+# Предисловие:
 **В данном репозитории представлено полное решение демонстрационного экзамена (ДЭ, ДЕМО, ДЭМО) от 2025 года по специальности 09.02.06 Сетевое и системное администрирование. Все задания выполнялись удалённо на машинах с установленной ОС ALT Linux и развёрнутых на Proxmox стендах предоставленных Аэрокосмическим колледжем при Сибирском государственном университете науки и технологий имени академика М.Ф. Решетнёва базирующемся в городе Красноярск. Надеюсь, что моя работа поможет как можно более широкому кругу молодых специалистов, что уже сдают или ещё будут сдавать этот экзамен.**
 # DEMO-2025:
 **Схема сети — красные со шлюзом, синие без шлюза:**
@@ -27,54 +27,40 @@
 ## **Модуль №1:**
 ### 1. Конфигурация и адресация:
 **На ISP, HQ-RTR, BR-RTR пересылка пакетов:**
+`nano /etc/net/sysctl.conf`
 ```
-nano /etc/net/sysctl.conf
+net.ipv4.ip_forward = 1
 ```
-> [!NOTE]
-> net.ipv4.ip_forward = 1
- 
 **На них же ставим NAT на красный:**
-```
-iptables -t nat -A POSTROUTING -o ens18 -j MASQUERADE
-iptables-save >> /etc/sysconfig/iptables
-systemctl enable --now iptables
-```
+`iptables -t nat -A POSTROUTING -o ens18 -j MASQUERADE`
+`iptables-save >> /etc/sysconfig/iptables`
+`systemctl enable --now iptables`
 **На всех часовой пояс:**
-```
-timedatectl set-timezone Asia/Krasnoyarsk
-```
+`timedatectl set-timezone Asia/Krasnoyarsk`
 **На всех имена свои:**
+`hostnamectl set-hostname hq-rtr.au-team.irpo ; exec bash`
+`nano /etc/sysconfig/network`
 ```
-hostnamectl set-hostname hq-rtr.au-team.irpo ; exec bash
-nano /etc/sysconfig/network
+HOSTNAME=br-rtr.au-team.irpo
 ```
-> [!NOTE]
-> HOSTNAME=br-rtr.au-team.irpo
-
 **На всех синих адреса свои:**
+`nano ens18/options`
 ```
-nano ens18/options
+На месте обоих слов dhcp и dhcp4 ставим слово static
 ```
-> [!NOTE]
-> На месте обоих слов dhcp и dhcp4 ставим слово static
+`nano ens18/ipv4address`
 ```
-nano ens18/ipv4address
+172.16.5.1/28
 ```
-> [!NOTE]
-> 172.16.5.1/28
-
 **Ко всем красным шлюзы свои:**
-```
-nano ens18/ipv4route
+`nano ens18/ipv4route`
 ```
 default via 172.16.5.14
-
+```
 **На всех:**
-```
-systemctl restart network
-ip -c -br a
-ip -c -br r
-```
+`systemctl restart network`
+`ip -c -br a`
+`ip -c -br r`
 **Больше ISP не трогаем**
 ### 2. VLAN и DHCP:
 **HQ-RTR на сабах:
