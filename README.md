@@ -375,7 +375,7 @@ mount -a
 ls /mnt/nfs
 ```
 ### 2. Chrony:
-**На HQ-RTR стираем строку pool в самом низу и добавляем:**
+**На HQ-RTR находим и стираем строку pool в самом низу, добавляем:**
 ```
 nano /etc/chrony.conf
 
