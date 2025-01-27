@@ -3,9 +3,6 @@
 
 ---
 # Схема сети:
-**Красные адреса со шлюзом, синие без шлюза**
-
----
 
 <img src="https://raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/images/scheme.png" width="360" height="480">
 
