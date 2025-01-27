@@ -7,6 +7,7 @@
 
 <img src="https://raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/images/scheme.png" width="360" height="480">
 
+---
 **Таблица с адресами устройств по сегментам:**
 
 ---
@@ -370,22 +371,20 @@ mount -a
 ls /mnt/nfs
 ```
 ### 2. Chrony:
-**На HQ-RTR:**
+**На HQ-RTR стираем строку pool в самом низу и добавляем:**
 ```
 nano /etc/chrony.conf
 
-    Стираем строку pool в самом низу и добавляем
-	
     local stratum 5
     allow 0/0
 
 systemctl restart chronyd
 ```
-**На всех остальных находим, меняем:**
+**На всех остальных:**
 ```
 nano /etc/chrony.conf
 
-    Меняем строку pool на pool hq-rtr iburst
+    Находим и меняем pool на pool hq-rtr iburst
 
 systemctl restart chronyd
 chattr +i /etc/resolv.conf
