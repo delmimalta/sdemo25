@@ -26,26 +26,26 @@
 |     **HQ-CLI**     |     RTR     | 10.1.1.65-77/28 |       10.1.1.78       |
 # Содержание:
 - [**Модуль №1:**](#модуль-№1)
-  * [1. Конфигурация и адресация](#1-конфигурация-и-адресация)
-  * [2. VLAN и DHCP](#2-vlan-и-dhcp)
-  * [3. GRE и OSPF](#3-gre-и-ospf)
-  * [4. SSH](#4-ssh)
-  * [5. DNS](#5-dns)
+  1. [Конфигурация и адресация](#1-конфигурация-и-адресация)
+  2. [VLAN и DHCP](#2-vlan-и-dhcp)
+  3. [GRE и OSPF](#3-gre-и-ospf)
+  4. [SSH](#4-ssh)
+  5. [DNS](#5-dns)
 - [**Модуль №2:**](#модуль-№2)
-  * [1. RAID и NFS](#1-raid-и-nfs)
-  * [2. Chrony](#2-chrony)
-  * [3. Ansible и Yandex](#3-ansible-и-yandex)
-  * [4. MediaWiki в Docker](#4-mediawiki-в-docker)
-  * [5. Moodle на Apache](#5-moodle-на-apache)
-  * [6. Port Forwarding и NGINX - НЕ ГОТОВ](#6-port-forwarding-и-nginx---не-готов)
-  * [7. Samba DC](#7-samba-dc)
+  1. [RAID и NFS](#1-raid-и-nfs)
+  2. [Chrony](#2-chrony)
+  3. [Ansible и Yandex](#3-ansible-и-yandex)
+  4. [MediaWiki в Docker](#4-mediawiki-в-docker)
+  5. [Moodle на Apache](#5-moodle-на-apache)
+  6. [Port Forwarding и NGINX - НЕ ГОТОВ](#6-port-forwarding-и-nginx---не-готов)
+  7. [Samba DC](#7-samba-dc)
 - [**Проверка:**](#проверка)
-  * [ISP](#isp)
-  * [HQ-RTR](#hq-rtr)
-  * [BR-RTR](#br-rtr)
-  * [HQ-SRV](#hq-srv)
-  * [BR-SRV](#br-srv)
-  * [HQ-CLI](#hq-cli)
+  1. [ISP](#1-isp)
+  2. [HQ-RTR](#2-hq-rtr)
+  3. [BR-RTR](#3-br-rtr)
+  4. [HQ-SRV](#4-hq-srv)
+  5. [BR-SRV](#5-br-srv)
+  6. [HQ-CLI](#6-hq-cli)
 ## **Модуль №1:**
 ### 1. Конфигурация и адресация:
 **На ISP, HQ-RTR, BR-RTR пересылка пакетов:**
@@ -581,13 +581,13 @@ chmod +x import.sh
 bash import.sh
 **Готово.**
 ## **Проверка:**
-### ISP:
+### 1. ISP:
 hostname
 cat /etc/sysconfig/network
 cat /etc/sysconfig/iptables
 cat /proc/sys/net/ipv4/ip_forward
 ip -c -br a
-### HQ-RTR:
+### 2. HQ-RTR:
 hostname
 cat /etc/sysconfig/network
 cat /etc/sysconfig/iptables
@@ -597,7 +597,7 @@ ip -c -br r
 ping google.com
 tracepath br-srv
 chronyc clients
-### BR-RTR:
+### 3. BR-RTR:
 hostname
 cat /etc/sysconfig/network
 cat /etc/sysconfig/iptables
@@ -606,7 +606,7 @@ ip -c -br a
 ip -c -br r
 ping google.com
 tracepath hq-srv
-### HQ-SRV:
+### 4. HQ-SRV:
 hostname
 cat /etc/sysconfig/network
 ip -c -br a
@@ -616,7 +616,7 @@ tracepath br-srv
 lsblk
 cat /etc/mdadm.conf
 exportfs
-### BR-SRV:
+### 5. BR-SRV:
 hostname
 cat /etc/sysconfig/network
 ip -c -br a
@@ -627,7 +627,7 @@ ansible -m ping all
 docker ps -a
 samba-tool domain info 127.0.0.1
 samba-tool user list
-### HQ-CLI:
+### 6. HQ-CLI:
 hostname
 cat /etc/sysconfig/network
 ip -c -br a
