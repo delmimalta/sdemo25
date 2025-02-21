@@ -130,7 +130,6 @@ systemctl restart dnsmasq
 ### 3. GRE и OSPF:
 **На HQ-RTR:**
 ```
-apt-get install -y frr
 mkdir tun0
 nano tun0/options
 
@@ -148,6 +147,30 @@ nano tun0/ipv4address
 
 modprobe gre
 systemctl restart network
+```
+**На BR-RTR:**
+```
+mkdir tun0
+nano tun0/options
+
+    TYPE=iptun
+    TUNTYPE=gre
+    TUNLOCAL=172.16.5.1
+    TUNREMOTE=172.16.4.1
+    TUNTTL=64
+    TUNOPTIONS='ttl 64'
+    HOST=ens18
+
+nano tun0/ipv4address
+
+    10.10.10.2/30
+
+modprobe gre
+systemctl restart network
+```
+**Возвращаемся на HQ-RTR:**
+```
+apt-get install -y frr
 nano /etc/frr/daemons
 
     Находим и меняем ospfd=no на ospfd=yes
@@ -170,26 +193,9 @@ vtysh
 
 systemctl restart frr
 ```
-**На BR-RTR:**
+**Возвращаемся на BR-RTR:**
 ```
 apt-get update && apt-get install -y frr
-mkdir tun0
-nano tun0/options
-
-    TYPE=iptun
-    TUNTYPE=gre
-    TUNLOCAL=172.16.5.1
-    TUNREMOTE=172.16.4.1
-    TUNTTL=64
-    TUNOPTIONS='ttl 64'
-    HOST=ens18
-
-nano tun0/ipv4address
-
-    10.10.10.2/30
-
-modprobe gre
-systemctl restart network
 nano /etc/frr/daemons
 
     Находим и меняем ospfd=no на ospfd=yes
