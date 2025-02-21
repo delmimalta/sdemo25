@@ -625,6 +625,14 @@ wget raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/import.sh
 chmod +x import.sh
 bash import.sh
 ```
+**Снова на HQ-CLI:**
+```
+nano /etc/chrony.conf
+
+	Опять находим и меняем pool на pool hq-rtr iburst
+	
+chattr +i /etc/chrony.conf
+```
 **Готово.**
 
 ---
