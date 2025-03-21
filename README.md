@@ -438,12 +438,16 @@ docker compose -f wiki.yml up -d
     Далее ->
 ```
 **Пользователь = wiki, пароль = WikiP@ssw0rd:**
+
 <img src="https://raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/images/wiki1.png">
+
 ```
     ☑ Использовать ту же учётную запись, что и для установки
     Далее ->
 ```
+
 <img src="https://raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/images/wiki2.png">
+
 ```
     Далее ->
     Далее ->
@@ -460,7 +464,9 @@ nano wiki.yml
 docker compose -f wiki.yml up -d
 ```
 **Возвращаемся в браузер на HQ-CLI и заходим на первоначальный адрес:**
+
 <img src="https://raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/images/wiki3.png">
+
 ### 5. Moodle на Apache:
 **На HQ-SRV:**
 ```
@@ -487,7 +493,9 @@ systemctl restart mariadb
     MariaDB ("родной"/mariadb)
     Далее ->
 ```
+
 <img src="https://raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/images/moodle1.png">
+
 ```
     Продолжить
 ```
@@ -504,10 +512,15 @@ systemctl restart httpd2
     Продолжить
     Продолжить
 ```
+
 <img src="https://raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/images/moodle2.png">
+
 **Названием сайта будет номер вашего места**:
+
 <img src="https://raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/images/moodle3.png">
+
 <img src="https://raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/images/moodle4.png">
+
 ### 6. Port Forwarding и NGINX - НЕ ГОТОВ:
 **На BR-RTR:**
 ```
@@ -565,9 +578,13 @@ samba-tool group add hq
 samba-tool group addmembers hq user1.hq,user2.hq,user3.hq,user4.hq,user5.hq
 ```
 **На HQ-CLI:**
+
 <img src="https://raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/images/samba1.png">
+
 <img src="https://raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/images/samba2.png">
+
 <img src="https://raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/images/samba3.png">
+
 ```
 reboot
 ```
@@ -594,9 +611,13 @@ kinit administrator
 
 admc
 ```
+
 <img src="https://raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/images/samba4.png">
+
 <img src="https://raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/images/samba5.png">
+
 <img src="https://raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/images/samba6.png">
+
 ```
 apt-get install -y sudo libsss_sudo
 control sudo public
