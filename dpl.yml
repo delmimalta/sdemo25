@@ -1,0 +1,21 @@
+Networking:
+  hosts:
+    S19RT01:
+      ansible_host: 10.19.1.200
+      ansible_user: netadmin
+      ansible_password: Pa$$w0rd
+      ansible_port: 19122
+Servers:
+  hosts:
+    hq-srv:
+      ansible_host: 10.19.1.100
+      ansible_password: P@ssw0rd
+      ansible_user: sshuser
+      ansible_port: 19122
+Clients:
+  hosts:
+    S19PC01:
+      ansible_host: 10.19.1.99
+      ansible_user: user
+      ansible_password: resu
+      ansible_port: 19122
