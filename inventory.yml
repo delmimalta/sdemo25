@@ -14,13 +14,13 @@ Servers:
   hosts:
     hq-srv:
       ansible_host: 10.1.1.1
-      ansible_password: P@ssw0rd
       ansible_user: sshuser
+      ansible_password: P@ssw0rd
       ansible_port: 2024
     br-srv:
       ansible_host: 10.2.2.1
-      ansible_password: P@ssw0rd
       ansible_user: sshuser
+      ansible_password: P@ssw0rd
       ansible_port: 2024
 Clients:
   hosts:
