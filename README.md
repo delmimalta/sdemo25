@@ -626,10 +626,9 @@ control sudo public
 ```
 nano /etc/sssd/sssd.conf
 
-    config_file_version = 2
     services = nss,pam,sudo
 
-    id_provider = ad
+	id_provider = ad
     sudo_provider = ad
 
 nano /etc/nsswitch.conf
