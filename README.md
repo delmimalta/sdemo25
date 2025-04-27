@@ -685,7 +685,7 @@ control sudo public
 ```
 nano /etc/sssd/sssd.conf
 
-    services = nss,pam,sudo
+    services = nss, pam, sudo
 
     id_provider = ad
     sudo_provider = ad
