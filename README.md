@@ -414,7 +414,7 @@ docker compose -f wiki.yml up -d
 apt-get update && apt-get install -y yandex-browser-stable
 
     10.2.2.1:8080
-
+    
 	Set up the wiki
 	
 	Далее ->
@@ -489,7 +489,7 @@ systemctl restart mariadb
 ```
 	Далее >>
 	
-    Продолжить
+	Продолжить
 ```
 **Возвращаемся на HQ-SRV:**
 ```
@@ -555,7 +555,7 @@ ln -s /etc/nginx/conf-available.d/revproxy.conf /etc/nginx/sites-enabled.d
 ls -la /etc/nginx/sites-enabled.d
 systemctl restart nginx
 ```
-**Проверяем в браузере на HQ-CLI:**
+**В браузере на HQ-CLI:**
 ```
 	http://wiki.au-team.irpo
 	http://moodle.au-team.irpo
@@ -610,7 +610,7 @@ samba-tool group addmembers hq user1.hq,user2.hq,user3.hq,user4.hq,user5.hq
 
 	toor
 
-Пользователи - Аутентификация
+Пользователи -> Аутентификация
 ```
 
 <img src="https://raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/images/samba2.png">
@@ -636,10 +636,10 @@ apt-get update && apt-get install -y sudo-samba-schema
 sudo-schema-apply
 
     Yes
-
+    
 	Логин: Administrator
 	Пароль: P@ssw0rd
-
+	
 	ОК
 
 create-sudo-rule
