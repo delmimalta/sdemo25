@@ -282,7 +282,7 @@ systemctl enable --now dnsmasq
 wget raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/dnsmasq.conf
 nano /etc/dnsmasq.conf
 
-	Меняем адрес клиента на свой
+    Меняем адрес клиента на свой
 
 systemctl restart dnsmasq
 ```
@@ -290,7 +290,7 @@ systemctl restart dnsmasq
 ```
 nano /etc/hosts
 
-	10.1.1.62 hq-rtr.au-team.irpo
+    10.1.1.62 hq-rtr.au-team.irpo
 
 nano /etc/resolv.conf
 
@@ -415,19 +415,19 @@ apt-get update && apt-get install -y yandex-browser-stable
 
     10.2.2.1:8080
     
-	Set up the wiki
+    Set up the wiki
 	
-	Далее ->
+    Далее ->
 	
-	Далее ->
+    Далее ->
 ```
 **Имя пользователя базы данных = wiki, а пароль = WikiP@ssw0rd:**
 
 <img src="https://raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/images/wiki1.png">
 
 ```
-	☑ Использовать ту же учётную запись
-	Далее ->
+    ☑ Использовать ту же учётную запись
+    Далее ->
 ```
 
 <img src="https://raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/images/wiki2.png">
@@ -450,7 +450,7 @@ docker compose -f wiki.yml up -d
 ```
 **Возвращаемся в браузер на HQ-CLI:**
 ```
-	10.2.2.1:8080
+    10.2.2.1:8080
 ```
 
 <img src="https://raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/images/wiki3.png">
@@ -487,9 +487,9 @@ systemctl restart mariadb
 <img src="https://raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/images/moodle1.png">
 
 ```
-	Далее >>
+    Далее >>
 	
-	Продолжить
+    Продолжить
 ```
 **Возвращаемся на HQ-SRV:**
 ```
@@ -509,15 +509,15 @@ systemctl restart httpd2
 <img src="https://raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/images/moodle2.png">
 
 ```
-	Обновить профиль
+    Обновить профиль
 
-	Полное название - № вашего места
-	Краткое название - № вашего места
-	Описание главной - № вашего места
-	Часовой пояс - Азия/Красноярск
-	Электронная почта - qwe@asd.zxc
+    Полное название - № вашего места
+    Краткое название - № вашего места
+    Описание главной - № вашего места
+    Часовой пояс - Азия/Красноярск
+    Электронная почта - qwe@asd.zxc
 	
-	Сохранить изменения
+    Сохранить изменения
 ```
 
 <img src="https://raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/images/moodle3.png">
@@ -540,7 +540,7 @@ systemctl restart iptables
 ```
 nano /var/www/webapps/moodle/config.php
 
-	$CFG->wwwroot = 'http://moodle.au-team.irpo/moodle';
+    $CFG->wwwroot = 'http://moodle.au-team.irpo/moodle';
 
 systemctl restart mariadb
 systemctl restart httpd2
@@ -557,8 +557,8 @@ systemctl restart nginx
 ```
 **В браузере на HQ-CLI:**
 ```
-	http://wiki.au-team.irpo
-	http://moodle.au-team.irpo
+    http://wiki.au-team.irpo
+    http://moodle.au-team.irpo
 ```
 ### 7. Samba DC:
 **На BR-SRV:**
@@ -608,7 +608,7 @@ samba-tool group addmembers hq user1.hq,user2.hq,user3.hq,user4.hq,user5.hq
 ```
 Центр управления системой
 
-	toor
+    toor
 
 Пользователи -> Аутентификация
 ```
@@ -618,14 +618,14 @@ samba-tool group addmembers hq user1.hq,user2.hq,user3.hq,user4.hq,user5.hq
 ```
 Применить
 
-	Да
+    Да
 
 ```
 
 <img src="https://raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/images/samba3.png">
 
 ```
-	ОК
+    ОК
 
 reboot
 ```
@@ -637,20 +637,20 @@ sudo-schema-apply
 
     Yes
     
-	Логин: Administrator
-	Пароль: P@ssw0rd
+    Логин: Administrator
+    Пароль: P@ssw0rd
 	
-	ОК
+    ОК
 
 create-sudo-rule
 
-	OU:				OU=sudoers,dc=AU-TEAM,dc=IRPO
+    OU:			OU=sudoers,dc=AU-TEAM,dc=IRPO
     Имя правила:	hq-rules
-	sudoHost		ALL
+    sudoHost		ALL
     sudoCommand:	/bin/cat
-    sudoUser:	    %hq
+    sudoUser:	    	%hq
 
-	ОК
+    ОК
 ```
 **Возвращаемся на HQ-CLI:**
 ```
@@ -669,8 +669,8 @@ admc
 <img src="https://raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/images/samba6.png">
 
 ```
-	Применить
-	Ок
+    Применить
+    Ок
 
 apt-get install -y sudo libsss_sudo
 control sudo public
@@ -681,7 +681,7 @@ nano /etc/sssd/sssd.conf
 
     services = nss,pam,sudo
 
-	id_provider = ad
+    id_provider = ad
     sudo_provider = ad
 
 nano /etc/nsswitch.conf
@@ -708,7 +708,7 @@ bash import.sh
 ```
 nano /etc/chrony.conf
 
-	Опять находим и меняем pool на pool hq-rtr iburst
+    Опять находим и меняем pool на pool hq-rtr iburst
 	
 chattr +i /etc/chrony.conf
 ```
@@ -782,21 +782,21 @@ ping google.com
 tracepath br-srv
 ssh -p 2024 sshuser@10.1.1.62
 
-	id
-	sudo whoami
+    id
+    sudo whoami
 
 ssh -p 2024 sshuser@10.2.2.30
 
-	id
-	sudo whoami
+    id
+    sudo whoami
 
 ssh -p 2024 net_amdin@10.1.1.62
 
-	sudo whoami
+    sudo whoami
 	
 ssh -p 2024 net_admin@10.2.2.30
 
-	sudo whoami	
+    sudo whoami	
 
 ls /mnt/nfs
 chronyc tracking
