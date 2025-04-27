@@ -277,12 +277,14 @@ systemctl enable --now sshd
 ### 5. DNS:
 **На HQ-SRV:**
 ```
+wget raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/dnsmasq.conf
 apt-get update && apt-get install -y dnsmasq wget
 systemctl enable --now dnsmasq
-wget raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/dnsmasq.conf
+rm -rf /etc/dnsmasq.conf
+cp -r dnsmasq.conf /etc/
 nano /etc/dnsmasq.conf
 
-    Меняем адрес клиента на свой
+    Меняем оба адреса клиента на свой
 
 systemctl restart dnsmasq
 ```
