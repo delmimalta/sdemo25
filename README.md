@@ -559,7 +559,7 @@ wget raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/revproxy.conf
 rm -rf /etc/nginx/sites-available.d/default.conf
 ln -s /etc/nginx/conf-available.d/revproxy.conf /etc/nginx/sites-enabled.d
 ls -la /etc/nginx/sites-enabled.d
-systemctl restart nginx
+systemctl enable --now nginx
 ```
 **В браузере на HQ-CLI:**
 ```
