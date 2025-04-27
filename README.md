@@ -37,7 +37,7 @@
   ‎ 3. [Ansible и Yandex](#3-ansible-и-yandex)  
   ‎ 4. [MediaWiki в Docker](#4-mediawiki-в-docker)  
   ‎ 5. [Moodle на Apache](#5-moodle-на-apache)  
-  ‎ 6. [Port Forwarding и NGINX - НЕ ГОТОВ](#6-port-forwarding-и-nginx---не-готов)  
+  ‎ 6. [DNAT и NGINX](#6-dnat-и-nginx)  
   ‎ 7. [Samba DC](#7-samba-dc)  
 - [**Проверка:**](#проверка)  
   ‎ 1. [ISP](#1-isp)  
@@ -110,6 +110,8 @@ nano ens19.100/options
 nano ens19.100/ipv4address
 
     10.1.1.62/26
+
+systemctl restart network
 ```
 **На нём же раздача DHCP, клиенту иногда нужна перезагрузка:**
 ```
@@ -273,38 +275,23 @@ nano /etc/openssh/sshd_config
 systemctl enable --now sshd
 ```
 ### 5. DNS:
-**На HQ-SRV, перед посмотрите адрес клиента:**
+**На HQ-SRV:**
 ```
-apt-get update && apt-get install -y dnsmasq
+apt-get update && apt-get install -y dnsmasq wget
 systemctl enable --now dnsmasq
+wget raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/dnsmasq.conf
 nano /etc/dnsmasq.conf
 
-    no-resolv
-    domain=au-team.irpo
-    server=8.8.8.8
-    interface=ens18
-    
-    address=/hq-rtr.au-team.irpo/10.1.1.62
-    ptr-record=62.1.1.10.in-addr.arpa,hq-rtr.au-team.irpo
-    cname=moodle.au-team.irpo,hq-rtr.au-team.irpo
-    cname=wiki.au-team.irpo,hq-rtr.au-team.irpo
-    
-    address=/br-rtr.au-team.irpo/10.2.2.30
-    ptr-record=30.2.2.10.in-addr.arpa,br-rtr.au-team.irpo
-    
-    address=/hq-srv.au-team.irpo/10.1.1.1
-    ptr-record=1.1.1.10.in-addr.arpa,hq-srv.au-team.irpo
-    
-    address=/br-srv.au-team.irpo/10.2.2.1
-    ptr-record=1.2.2.10.in-addr.arpa,br-srv.au-team.irpo
-    
-    address=/hq-cli.au-team.irpo/10.1.1.65
-    ptr-record=65.1.1.10.in-addr.arpa,hq-cli.au-team.irpo
+	Меняем адрес клиента на свой
 
 systemctl restart dnsmasq
 ```
 **На нём же:**
 ```
+nano /etc/hosts
+
+	10.1.1.62 hq-rtr.au-team.irpo
+
 nano /etc/resolv.conf
 
     nameserver 127.0.0.1
@@ -393,7 +380,7 @@ nano /etc/chrony.conf
 
 systemctl restart chronyd
 ```
-### 3. Ansible и Yandex:
+### 3. Ansible:
 **На BR-SRV:**
 ```
 apt-get update && apt-get install -y ansible sshpass wget
@@ -401,21 +388,14 @@ cd /etc/ansible
 wget raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/inventory.yml
 nano inventory.yml
 
-    Меняем IP адрес клиента на свой
+    Меняем адрес клиента на свой
 
 nano ansibe.cfg
 
     interpreter_python = /usr/bin/python3
     inventory = /etc/ansible/inventory.yml
     host_key_checking = false
-```
-**На HQ-CLI:**
-```
-apt-get update && apt-get remove -y --purge --auto-remove python2-base
-apt-get install -y yandex-browser-stable
-```
-**Возвращаемся на BR-SRV:**
-```
+
 ansible -m ping all
 ```
 ### 4. MediaWiki в Docker:
@@ -429,27 +409,32 @@ mv wiki.yml /home/user
 cd /home/user
 docker compose -f wiki.yml up -d
 ```
-**В браузере на HQ-CLI:**
+**В консоли, а затем в браузере на HQ-CLI:**
 ```
+apt-get update && apt-get install -y yandex-browser-stable
+
     10.2.2.1:8080
 
-    Please set up the wiki first
-    Далее ->
-    Далее ->
+	Set up the wiki
+	
+	Далее ->
+	
+	Далее ->
 ```
-**Пользователь = wiki, пароль = WikiP@ssw0rd:**
+**Имя пользователя базы данных = wiki, а пароль = WikiP@ssw0rd:**
 
 <img src="https://raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/images/wiki1.png">
 
 ```
-    ☑ Использовать ту же учётную запись, что и для установки
-    Далее ->
+	☑ Использовать ту же учётную запись
+	Далее ->
 ```
 
 <img src="https://raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/images/wiki2.png">
 
 ```
     Далее ->
+    
     Далее ->
     
 scp -P 2024 /home/user/Загрузки/LocalSettings.php sshuser@10.2.2.1:/home/sshuser
@@ -463,7 +448,10 @@ nano wiki.yml
 
 docker compose -f wiki.yml up -d
 ```
-**Возвращаемся в браузер на HQ-CLI и заходим на первоначальный адрес:**
+**Возвращаемся в браузер на HQ-CLI:**
+```
+	10.2.2.1:8080
+```
 
 <img src="https://raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/images/wiki3.png">
 
@@ -488,40 +476,53 @@ systemctl restart mariadb
     10.1.1.1/moodle
 
     Русский (ru)
-    Далее ->
-    Далее ->
+    Далее >>
+    
+    Далее >>
+    
     MariaDB ("родной"/mariadb)
-    Далее ->
+    Далее >>
 ```
 
 <img src="https://raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/images/moodle1.png">
 
 ```
+	Далее >>
+	
     Продолжить
 ```
 **Возвращаемся на HQ-SRV:**
 ```
 nano /etc/php/8.2/apache2-mod_php/php.ini
 
-    Ищем, раскомментируем/меняем ; перед/на max_input_vars = 6000
+    Ищем, раскомментируем, меняем на max_input_vars = 6000
 
 systemctl restart httpd2
 ```
 **Возвращаемся в браузер на HQ-CLI и обновляем страницу**:
 ```
     Продолжить
+    
     Продолжить
 ```
 
 <img src="https://raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/images/moodle2.png">
 
-**Названием сайта будет номер вашего места**:
+```
+	Обновить профиль
+
+	Полное название - № вашего места
+	Краткое название - № вашего места
+	Описание главной - № вашего места
+	Часовой пояс - Азия/Красноярск
+	Электронная почта - qwe@asd.zxc
+	
+	Сохранить изменения
+```
 
 <img src="https://raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/images/moodle3.png">
 
-<img src="https://raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/images/moodle4.png">
-
-### 6. Port Forwarding и NGINX - НЕ ГОТОВ:
+### 6. DNAT и NGINX:
 **На BR-RTR:**
 ```
 iptables -t nat -A PREROUTING -p tcp -d 10.2.2.30 --dport 80 -j DNAT --to-destination 10.2.2.1:8080
@@ -535,7 +536,30 @@ iptables -t nat -A PREROUTING -p tcp -d 10.1.1.62 --dport 2024 -j DNAT --to-dest
 iptables-save > /etc/sysconfig/iptables
 systemctl restart iptables
 ```
-**NGINX НЕ ГОТОВ!**
+**На HQ-SRV находим и меняем:**
+```
+nano /var/www/webapps/moodle/config.php
+
+	$CFG->wwwroot = 'http://moodle.au-team.irpo/moodle';
+
+systemctl restart mariadb
+systemctl restart httpd2
+```
+**Возвращаемся на HQ-RTR:**
+```
+apt-get install -y nginx wget
+cd /etc/nginx/conf-available.d/
+wget raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/revproxy.conf
+rm -rf /etc/nginx/sites-available.d/default.conf
+ln -s /etc/nginx/conf-available.d/revproxy.conf /etc/nginx/sites-enabled.d
+ls -la /etc/nginx/sites-enabled.d
+systemctl restart nginx
+```
+**Проверяем в браузере на HQ-CLI:**
+```
+	http://wiki.au-team.irpo
+	http://moodle.au-team.irpo
+```
 ### 7. Samba DC:
 **На BR-SRV:**
 ```
@@ -581,11 +605,28 @@ samba-tool group addmembers hq user1.hq,user2.hq,user3.hq,user4.hq,user5.hq
 
 <img src="https://raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/images/samba1.png">
 
+```
+Центр управления системой
+
+	toor
+
+Пользователи - Аутентификация
+```
+
 <img src="https://raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/images/samba2.png">
+
+```
+Применить
+
+	Да
+
+```
 
 <img src="https://raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/images/samba3.png">
 
 ```
+	ОК
+
 reboot
 ```
 **Снова на BR-SRV:**
@@ -596,11 +637,20 @@ sudo-schema-apply
 
     Yes
 
+	Логин: Administrator
+	Пароль: P@ssw0rd
+
+	ОК
+
 create-sudo-rule
 
-    Имя правила:	hq_rules
+	OU:				OU=sudoers,dc=AU-TEAM,dc=IRPO
+    Имя правила:	hq-rules
+	sudoHost		ALL
     sudoCommand:	/bin/cat
     sudoUser:	    %hq
+
+	ОК
 ```
 **Возвращаемся на HQ-CLI:**
 ```
@@ -619,6 +669,9 @@ admc
 <img src="https://raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/images/samba6.png">
 
 ```
+	Применить
+	Ок
+
 apt-get install -y sudo libsss_sudo
 control sudo public
 ```
@@ -727,9 +780,28 @@ ip -c -br a
 ip -c -br r
 ping google.com
 tracepath br-srv
+ssh -p 2024 sshuser@10.1.1.62
+
+	id
+	sudo whoami
+
+ssh -p 2024 sshuser@10.2.2.30
+
+	id
+	sudo whoami
+
+ssh -p 2024 net_amdin@10.1.1.62
+
+	sudo whoami
+	
+ssh -p 2024 net_admin@10.2.2.30
+
+	sudo whoami	
+
 ls /mnt/nfs
 chronyc tracking
 rpm -q yandex-browser-stable
+sudo -l -U user1.hq
 ```
 **В браузере:**
 ```
@@ -738,12 +810,8 @@ rpm -q yandex-browser-stable
 
     http://wiki.au-team.irpo/
     http://moodle.au-team.irpo/
-
-ssh -p 2024 sshuser@10.1.1.62
-ssh -p 2024 sshuser@10.2.2.30
-sudo -l -U user1.hq
 ```
-**Заходим под пользователем user1.hq:**
+**Заходим под созданным пользователем:**
 ```
     user1.hq
     P@ssw0rd
