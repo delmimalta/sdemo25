@@ -544,8 +544,8 @@ nano /var/www/webapps/moodle/config.php
 
     $CFG->wwwroot = 'http://moodle.au-team.irpo/moodle';
 
-systemctl restart mariadb
 systemctl restart httpd2
+systemctl restart mariadb
 ```
 **Возвращаемся на HQ-RTR:**
 ```
