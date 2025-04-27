@@ -428,6 +428,8 @@ apt-get update && apt-get install -y yandex-browser-stable
 <img src="https://raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/images/wiki1.png">
 
 ```
+	Далее ->
+	
     ☑ Использовать ту же учётную запись
     Далее ->
 ```
@@ -435,6 +437,8 @@ apt-get update && apt-get install -y yandex-browser-stable
 <img src="https://raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/images/wiki2.png">
 
 ```
+    Далее ->
+    
     Далее ->
     
     Далее ->
