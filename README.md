@@ -277,6 +277,10 @@ systemctl enable --now sshd
 ### 5. DNS:
 **На HQ-SRV:**
 ```
+nano /etc/hosts
+
+    10.1.1.62 hq-rtr.au-team.irpo
+
 wget raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/dnsmasq.conf
 apt-get update && apt-get install -y dnsmasq wget
 systemctl enable --now dnsmasq
@@ -290,10 +294,6 @@ systemctl restart dnsmasq
 ```
 **На нём же:**
 ```
-nano /etc/hosts
-
-    10.1.1.62 hq-rtr.au-team.irpo
-
 nano /etc/resolv.conf
 
     nameserver 127.0.0.1
