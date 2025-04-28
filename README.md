@@ -819,9 +819,6 @@ sudo -l -U user1.hq
 ```
     user1.hq
     P@ssw0rd
-
-sudo cat /etc/passwd | sudo grep root
-sudo id root
 ```
 **Заходим под импортированным пользователем:**
 ```
