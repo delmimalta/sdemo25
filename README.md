@@ -192,8 +192,6 @@ vtysh
     ip ospf message-digest-key 1 md5 P@ssw0rd
     do wr
     exit
-
-systemctl restart frr
 ```
 **Возвращаемся на BR-RTR:**
 ```
@@ -216,8 +214,6 @@ vtysh
     ip ospf message-digest-key 1 md5 P@ssw0rd
     do wr
     exit
-
-systemctl restart frr
 ```
 ### 4. SSH:
 **На HQ-SRV и BR-SRV:**
@@ -277,12 +273,13 @@ systemctl enable --now sshd
 ### 5. DNS:
 **На HQ-SRV:**
 ```
+apt-get update && apt-get install wget
 nano /etc/hosts
 
     10.1.1.62 hq-rtr.au-team.irpo
 
 wget raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/dnsmasq.conf
-apt-get update && apt-get install -y dnsmasq wget
+apt-get install -y dnsmasq
 systemctl enable --now dnsmasq
 rm -rf /etc/dnsmasq.conf
 cp -r dnsmasq.conf /etc/
