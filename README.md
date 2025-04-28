@@ -794,11 +794,11 @@ ssh -p 2024 sshuser@10.2.2.30
     id
     sudo whoami
 
-ssh -p 2024 net_amdin@10.1.1.62
+ssh -p 2024 net_amdin@172.16.4.1
 
     sudo whoami
 	
-ssh -p 2024 net_admin@10.2.2.30
+ssh -p 2024 net_admin@172.16.5.1
 
     sudo whoami	
 
