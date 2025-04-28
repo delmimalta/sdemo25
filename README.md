@@ -694,7 +694,7 @@ nano /etc/nsswitch.conf
 
 reboot
 
-rm -rf /var/lib/ssd/db/*
+rm -rf /var/lib/sss/db/*
 sss_cache -E
 systemctl restart sssd
 ```
@@ -714,6 +714,7 @@ nano /etc/chrony.conf
     Опять находим и меняем pool на pool hq-rtr iburst
 	
 chattr +i /etc/chrony.conf
+systemctl restart chronyd
 ```
 **Готово.**
 
