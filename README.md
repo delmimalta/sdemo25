@@ -276,7 +276,7 @@ systemctl enable --now sshd
 apt-get update && apt-get install wget
 nano /etc/hosts
 
-    10.1.1.62 hq-rtr.au-team.irpo
+    10.1.1.62	hq-rtr.au-team.irpo
 
 wget raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/dnsmasq.conf
 apt-get install -y dnsmasq
@@ -701,8 +701,8 @@ systemctl restart sssd
 **Опять на BR-SRV, но на экзамене архив уже лежит там:**
 ```
 cd /opt
-wget raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/Users.zip
-unzip Users.zip
+wget raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/users.zip
+unzip users.zip
 wget raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/import.sh
 chmod +x import.sh
 bash import.sh
