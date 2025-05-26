@@ -136,7 +136,9 @@ nano /etc/dnsmasq.conf
     dhcp-option=6,10.1.1.1
     dhcp-option=15,au-team.irpo
     interface=ens19.200
-%%Сделать скриншот и вставить в отчёт!%%
+```
+> Сделать скриншот и вставить в отчёт!
+```
 systemctl restart dnsmasq
 ```
 ### 3. GRE и OSPF:
