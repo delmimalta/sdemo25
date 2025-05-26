@@ -559,6 +559,7 @@ systemctl restart iptables
 ```
 **На HQ-RTR:**
 ```
+iptables -t nat -A PREROUTING -p tcp -d 10.1.1.62 --dport 80 -j DNAT --to-destination 10.1.1.1:8080
 iptables -t nat -A PREROUTING -p tcp -d 10.1.1.62 --dport 2024 -j DNAT --to-destination 10.1.1.1:2024
 iptables-save > /etc/sysconfig/iptables
 systemctl restart iptables
