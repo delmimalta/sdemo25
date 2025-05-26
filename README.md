@@ -120,8 +120,7 @@ nano ens19.999/ipv4address
 
 systemctl restart network
 ip -c -br a
-
-	Сделать скриншот и вставить в отчёт!
+%%Сделать скриншот и вставить в отчёт!%%
 ```
 **На нём же раздача DHCP, клиенту иногда нужна перезагрузка:**
 ```
@@ -136,7 +135,7 @@ nano /etc/dnsmasq.conf
     dhcp-option=6,10.1.1.1
     dhcp-option=15,au-team.irpo
     interface=ens19.200
-
+%%Сделать скриншот и вставить в отчёт!%%
 systemctl restart dnsmasq
 ```
 ### 3. GRE и OSPF:
@@ -160,8 +159,7 @@ nano tun0/ipv4address
 modprobe gre
 systemctl restart network
 ip -c -br a
-
-	Сделать скриншот и вставить в отчёт!
+%%Сделать скриншот и вставить в отчёт!%%
 ```
 **На BR-RTR:**
 ```
@@ -364,6 +362,10 @@ nano /etc/exports
 
 systemctl restart nfs
 touch /raid5/nfs/test
+cat /etc/mdadm.conf
+cat /etc/fstab
+exportfs ls /raid5/nfs
+%%Сделать скриншот и вставить в отчёт!%%
 ```
 **На HQ-CLI:**
 ```
