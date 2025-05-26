@@ -111,6 +111,30 @@ nano ens19.100/ipv4address
 
     10.1.1.62/26
 
+mkdir ens19.200/
+nano ens19.200/options
+
+    TYPE=vlan
+    HOST=ens19
+    VID=200
+    BOOTPROTO=static
+
+nano ens19.200/ipv4address
+
+    10.1.1.78/28
+
+mkdir ens19.999/
+nano ens19.999/options
+
+    TYPE=vlan
+    HOST=ens19
+    VID=999
+    BOOTPROTO=static
+
+nano ens19.999/ipv4address
+
+    10.1.1.86/29
+
 systemctl restart network
 ```
 **На нём же раздача DHCP, клиенту иногда нужна перезагрузка:**
