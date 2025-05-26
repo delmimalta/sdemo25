@@ -119,6 +119,9 @@ nano ens19.999/ipv4address
     10.1.1.86/29
 
 systemctl restart network
+ip -c -br a
+
+	Сделать скриншот и вставить в отчёт!
 ```
 **На нём же раздача DHCP, клиенту иногда нужна перезагрузка:**
 ```
@@ -156,6 +159,9 @@ nano tun0/ipv4address
 
 modprobe gre
 systemctl restart network
+ip -c -br a
+
+	Сделать скриншот и вставить в отчёт!
 ```
 **На BR-RTR:**
 ```
@@ -199,6 +205,7 @@ vtysh
     ip ospf message-digest-key 1 md5 P@ssw0rd
     do wr
     exit
+%%Сделать скриншот и вставить в отчёт!%%
 ```
 **Возвращаемся на BR-RTR:**
 ```
