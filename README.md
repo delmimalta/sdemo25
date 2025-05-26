@@ -138,6 +138,7 @@ nano /etc/dnsmasq.conf
     interface=ens19.200
 ```
 > Сделать скриншот и вставить в отчёт!
+
 ```
 systemctl restart dnsmasq
 ```
@@ -162,8 +163,9 @@ nano tun0/ipv4address
 modprobe gre
 systemctl restart network
 ip -c -br a
-%%Сделать скриншот и вставить в отчёт!%%
 ```
+> Сделать скриншот и вставить в отчёт!
+
 **На BR-RTR:**
 ```
 mkdir tun0
@@ -206,8 +208,9 @@ vtysh
     ip ospf message-digest-key 1 md5 P@ssw0rd
     do wr
     exit
-%%Сделать скриншот и вставить в отчёт!%%
 ```
+> Сделать скриншот и вставить в отчёт!
+
 **Возвращаемся на BR-RTR:**
 ```
 apt-get update && apt-get install -y frr
@@ -368,8 +371,9 @@ touch /raid5/nfs/test
 cat /etc/mdadm.conf
 cat /etc/fstab
 exportfs ls /raid5/nfs
-%%Сделать скриншот и вставить в отчёт!%%
 ```
+> Сделать скриншот и вставить в отчёт!
+
 **На HQ-CLI:**
 ```
 mkdir /mnt/nfs
