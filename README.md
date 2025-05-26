@@ -120,8 +120,8 @@ nano ens19.999/ipv4address
 
 systemctl restart network
 ip -c -br a
-> Сделать скриншот и вставить в отчёт!
 ```
+> Сделать скриншот и вставить в отчёт!
 **На нём же раздача DHCP, клиенту иногда нужна перезагрузка:**
 ```
 apt-get update && apt-get install -y dnsmasq
