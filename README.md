@@ -841,7 +841,7 @@ sudo -l -U user1.hq
 **В браузере:**
 ```
     10.2.2.30
-    10.1.1.1/moodle
+    10.1.1.62
 
     http://wiki.au-team.irpo/
     http://moodle.au-team.irpo/
