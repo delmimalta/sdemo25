@@ -207,13 +207,11 @@ vtysh
     int tun0
     ip ospf authentication message-digest
     ip ospf message-digest-key 1 md5 P@ssw0rd
-```
-> Сделать скриншот и вставить в отчёт!
-
-```
     do wr
     exit
 ```
+> Сделать скриншот и вставить в отчёт!
+
 **Возвращаемся на BR-RTR:**
 ```
 apt-get update && apt-get install -y frr
