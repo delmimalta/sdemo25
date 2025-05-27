@@ -579,7 +579,7 @@ nano /var/www/webapps/moodle/config.php
 systemctl restart mariadb
 systemctl restart httpd2
 ```
-**Возвращаемся на HQ-RTR:**
+**На ISP:**
 ```
 apt-get install -y nginx wget
 cd /etc/nginx/conf-available.d/
