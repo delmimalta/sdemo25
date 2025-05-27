@@ -371,7 +371,8 @@ systemctl restart nfs
 touch /raid5/nfs/test
 cat /etc/mdadm.conf
 cat /etc/fstab
-exportfs ls /raid5/nfs
+exportfs
+ls /raid5/nfs
 ```
 > Сделать скриншот и вставить в отчёт!
 
