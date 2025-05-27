@@ -389,6 +389,10 @@ ls /mnt/nfs
 ### 2. Chrony:
 **На HQ-RTR находим и стираем строку pool в самом низу, после добавляем:**
 ```
+nano /etc/hosts
+
+    10.10.10.2 br-rtr.au-team.irpo
+
 nano /etc/chrony.conf
 
     local stratum 5
