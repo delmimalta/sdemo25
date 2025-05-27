@@ -17,7 +17,7 @@
 - [**Модуль №2:**](#модуль-2)  
   ‎ 1. [RAID и NFS](#1-raid-и-nfs)  
   ‎ 2. [Chrony](#2-chrony)  
-  ‎ 3. [Ansible и Yandex](#3-ansible-и-yandex)  
+  ‎ 3. [Ansible](#3-ansible)  
   ‎ 4. [MediaWiki в Docker](#4-mediawiki-в-docker)  
   ‎ 5. [Moodle на Apache](#5-moodle-на-apache)  
   ‎ 6. [DNAT и NGINX](#6-dnat-и-nginx)  
@@ -201,6 +201,7 @@ vtysh
     router ospf
     network 10.1.1.0/26 area 0
     network 10.1.1.64/28 area 0
+    network 10.1.1.80/29 area 0
     network 10.10.10.0/30 area 0
     exit
     int tun0
@@ -436,7 +437,11 @@ docker compose -f wiki.yml up -d
 **В консоли, а затем в браузере на HQ-CLI:**
 ```
 apt-get update && apt-get install -y yandex-browser-stable
+rpm -q yandex-browser-stable
+```
+> Сделать скриншот и вставить в отчёт!
 
+```
     10.2.2.1:8080
     
     Set up the wiki
@@ -535,6 +540,8 @@ systemctl restart httpd2
 ```
 
 <img src="https://raw.githubusercontent.com/delmimalta/sdemo25/refs/heads/main/images/moodle2.png">
+
+> Сделать скриншот и вставить в отчёт!
 
 ```
     Обновить профиль
