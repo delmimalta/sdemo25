@@ -51,7 +51,7 @@ timedatectl set-timezone Asia/Krasnoyarsk
 ```
 **На всех имена свои:**
 ```
-hostnamectl set-hostname hq-rtr.au-team.irpo ; exec bash
+hostnamectl set-hostname br-rtr.au-team.irpo ; exec bash
 nano /etc/sysconfig/network
 
     HOSTNAME=br-rtr.au-team.irpo
